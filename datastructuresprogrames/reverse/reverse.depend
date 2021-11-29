@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1638201590 source:c:\users\ashok kumar\desktop\mahe lec notes\psuc lec notes\reverse\main.c
+	<stdio.h>
+	<stdlib.h>
+	"t.h"
+
+1638200741 c:\users\ashok kumar\desktop\mahe lec notes\psuc lec notes\reverse\t.h
+
