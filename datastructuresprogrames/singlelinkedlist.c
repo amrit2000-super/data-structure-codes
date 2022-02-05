@@ -104,13 +104,23 @@ struct SLL *insertbefore()
     {
         printf("number not found\n");
     }
+        
+     else if(searchptr==head && head==tail)
+    {
+        printf("you are inserting after the head node\n");
+        newnode=createnewnode();
+        searchptr->next=newnode;
+        tail=newnode;
+        printf("enter the number you want to insert:\n");
+        scanf("%d",&newnode->num);
+    }
 
-    else if(searchptr==head)
+    else if(searchptr==head && head!=tail)
     {
         printf("you ate inserting after the head node\n");
         newnode=createnewnode();
-        head->next=newnode;
         newnode->next=searchptr->next;
+        searchptr->next=newnode;
         printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
