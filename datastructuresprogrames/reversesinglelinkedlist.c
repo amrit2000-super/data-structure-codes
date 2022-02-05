@@ -32,10 +32,14 @@ struct SLL *insertbefore()
             searchptr=searchptr->next;
         }
     }
-
-    if(searchptr==head)
+    if(searchptr->num!=number)
     {
-        printf("you ate inserting before the head node\n");
+        printf("number not found\n");
+    }
+
+    else if(searchptr==head)
+    {
+        printf("you are inserting before the head node\n");
         newnode=createnewnode();
         newnode->next=head;
         head=newnode;
@@ -96,12 +100,26 @@ struct SLL *insertbefore()
             searchptr=searchptr->next;
         }
     }  
-    if(searchptr==head)
+    if(searchptr->num!=number)
     {
-        printf("you ate inserting after the head node\n");
+        printf("number not found\n");
+    }
+
+    else if(searchptr==head && head==tail)
+    {
+        printf("you are inserting after the head node\n");
         newnode=createnewnode();
-        head->next=newnode;
+        searchptr->next=newnode;
+        tail=newnode;
+        printf("enter the number you want to insert:\n");
+        scanf("%d",&newnode->num);
+    }
+    else if(searchptr==head && head!=tail)
+    {
+        printf("you are inserting after the head node\n");
+        newnode=createnewnode();
         newnode->next=searchptr->next;
+        searchptr->next=newnode;
         printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
@@ -118,7 +136,7 @@ struct SLL *insertbefore()
 
     else
     {
-        printf("you ate inserting somewhere\n");
+        printf("you are inserting somewhere\n");
         newnode=createnewnode();
         newnode->next=searchptr->next;
         searchptr->next=newnode;
@@ -245,13 +263,13 @@ struct SLL *insertbefore()
             p1=head;
             before=head;
             tail1=tail;
+            printf("the contents of the list in reverse order are:\n");
             while(p1!=NULL)
             {
                 before=head;
                 if(before==tail1)
                 {
                     printf("%d\t",tail1->num);
-                    break;
                 }
                 else
                 {
@@ -261,8 +279,8 @@ struct SLL *insertbefore()
                         before=before->next;
                     }
                     tail1=before;
-                    p1=p1->next;
                 }
+                p1=p1->next;
             }
             printf("\n");
         }
