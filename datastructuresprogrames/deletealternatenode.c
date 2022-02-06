@@ -1,28 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct myList
+typedef struct Tree
 {
     int num;
-    struct myList *prev;
-    struct myList *next;
-}*head,*tail,*p1,*p,*searchptr,*newnode,*after,*before,*after1;
+    struct Tree *next;  
+}Tree;
 
-struct myList *createnewnode()
+Tree *head,*tail,*before,*p,*p1,*newnode,*searchptr,*after;
+
+Tree *createnewnode()
 {
-    p=head;
-    newnode=(struct myList *)malloc(sizeof(struct myList));
-    newnode->prev=NULL;
-    newnode->next=NULL;
+    Tree *node=(Tree *)malloc(sizeof(Tree));
+    node->next=NULL;
+    return node;
 }
 
-struct myList *insertbefore()
+Tree *insertbefore()
 {
     int number;
     searchptr=head;
-    printf("enter the number before whom u want to insert:\n");
+    printf("enter the number before whom you want to insert\n");
     scanf("%d",&number);
-    
+
     while(searchptr->next!=NULL)
     {
         if(searchptr->num==number)
@@ -34,51 +34,61 @@ struct myList *insertbefore()
             searchptr=searchptr->next;
         }
     }
+
     if(searchptr->num!=number)
     {
-        printf("number not found pls enter correctly\n");
+        printf("number not found\n");
     }
+
     else if(searchptr==head)
     {
-        createnewnode();
-        newnode->next=searchptr;
-        searchptr->prev=newnode;
+        printf("you are inserting before the head node\n");
+        newnode=createnewnode();
+        newnode->next=head;
         head=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
+
     else if(searchptr==tail)
     {
-        createnewnode();
-        before=searchptr->prev;
+        printf("you are inserting before the tail node\n");
+        newnode=createnewnode();
+        before=head;
+        while(before->next!=searchptr)
+        {
+            before=before->next;      
+        }
         before->next=newnode;
-        newnode->prev=before;
-        newnode->next=tail;
-        tail->prev=newnode;
-        printf("enter the number:\n");
+        newnode->next=searchptr;
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
+
     else
     {
-        createnewnode();
-        before=searchptr->prev;
+        printf("you are inserting somewhere:\n");
+        newnode=createnewnode();
+        before=head;
+        while(before->next!=searchptr)
+        {
+            before=before->next;      
+        }
         before->next=newnode;
-        newnode->prev=before;
         newnode->next=searchptr;
-        searchptr->prev=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
+
     }
-    
 }
 
-struct myList *insertafter()
+Tree *insertafter()
 {
-    searchptr=head;
     int number;
-    printf("enter the number after whom u want to insert:\n");
+    searchptr=head;
+    printf("enter the number after whom you want to insert\n");
     scanf("%d",&number);
-    
+
     while(searchptr->next!=NULL)
     {
         if(searchptr->num==number)
@@ -90,113 +100,74 @@ struct myList *insertafter()
             searchptr=searchptr->next;
         }
     }
+
     if(searchptr->num!=number)
     {
-        printf("number not found pls enter correctly\n");
+        printf("number not found\n");
     }
-    
-    else if(searchptr==head && searchptr->next==NULL)
+
+    else if(searchptr==head && head==tail)
     {
-        createnewnode();
+        printf("you are inserting after head node\n");
+        newnode=createnewnode();
         searchptr->next=newnode;
-        newnode->prev=searchptr;
         tail=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
-    else if(searchptr==head && searchptr->next!=NULL)
+
+    else if(searchptr==head && head!=tail)
     {
-        createnewnode();
-        after=searchptr->next;
+        printf("you are inserting after head node\n");
+        newnode=createnewnode();
+        newnode->next=searchptr->next;
         searchptr->next=newnode;
-        newnode->prev=searchptr;
-        newnode->next=after;
-        after->prev=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
+
     else if(searchptr==tail)
     {
-        createnewnode();
+        printf("you are inserting after tail node\n");
+        newnode=createnewnode();
         tail->next=newnode;
-        newnode->prev=tail;
         tail=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
+
     else
     {
-        createnewnode();
-        after=searchptr->next;
+        printf("you are inserting somewhere\n");
+        newnode=createnewnode();
+        newnode->next=searchptr->next;
         searchptr->next=newnode;
-        newnode->prev=searchptr;
-        newnode->next=after;
-        after->prev=newnode;
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
 }
 
-struct myList *deletealternatenode()
+Tree *insert()
 {
     if(head==NULL)
     {
-        printf("list is empty\n");
-    }
-    else
-    {
-        searchptr=head;
-        if(searchptr->next==NULL && head==tail)
-        {
-            printf("No alternate node to delete\n");
-        }
-        else
-        {
-            while(searchptr->next!=NULL)
-            {
-            after=searchptr->next;
-            if(after->next==NULL)
-            {
-                p1=after;
-                tail=after->prev;
-                head->next=NULL;
-                free(p1);
-            }
-            else
-            {
-                p1=after;
-                before=after->prev;
-                after1=after->next;
-                before->next=after1;
-                after1->prev=before;
-                searchptr=after1;
-                free(p1);
-            }
-            }
-        }
-    }
-}
-
-
-struct myList *insert()
-{
-    if(head==NULL)
-    {
-        createnewnode();
+        newnode=createnewnode();
         head=tail=newnode;
-        printf("very first to enroll\n");
-        printf("enter the number:\n");
+        printf("enter the number you want to insert:\n");
         scanf("%d",&newnode->num);
     }
+
     else
     {
         int x;
-        printf("enter 0 if u want to insert before any node or 1 if u want to insert after any node:\n");
+        printf("enter 0 if you want to insert before a particular node or 1 if you want to insert after a particular node:\n");
         scanf("%d",&x);
+
         if(x==0)
         {
             insertbefore();
         }
+
         else
         {
             insertafter();
@@ -204,54 +175,85 @@ struct myList *insert()
     }
 }
 
-struct myList *display()
+Tree *deletealternatenodes()
 {
     if(head==NULL)
     {
-        printf("list is empty:\n");
+        printf("list is empty\n");
     }
     else
     {
-        searchptr=head;
-        printf("the contents of the list are:\n");
-        while(searchptr!=NULL)
+        p=head;
+        while(p->next!=NULL)
         {
-            printf("%d\t",searchptr->num);
-            searchptr=searchptr->next;
+            before=p;
+            after=p->next;
+            if(after==tail)
+            {
+                p1=after;
+                tail=before;
+                before->next=NULL;
+                p=before;
+                free(p1);
+            }
+            else
+            {
+                p1=after;
+                before->next=after->next;
+                p=after;
+            }
         }
-        printf("\n");
     }
+    printf("\n");
 }
 
-int main()
+Tree *display()
+{
+    if(head==NULL)
+    {
+        printf("list is empty\n");
+    }
+
+    else
+    {
+        p1=head;
+        printf("the contents of the list are:\n");
+        while(p1!=NULL)
+        {
+            printf("%d\t",p1->num);
+            p1=p1->next;
+        }
+    }
+    printf("\n");
+}
+
+void main()
 {
     int choice;
-    head=tail=p1=p=searchptr=newnode=after=before=after1=NULL;
+    head,tail,before,p,p1,newnode,searchptr,after=NULL;
     while(1)
     {
         printf("enter the choice:\n");
-        printf("1:insert\n 2:deletealternatenode\n 3:display\n 4:exit\n");
+        printf("1:insert\n 2:deletealternatenodes\n 3:display\n 4:exit\n");
         scanf("%d",&choice);
-        
+
         switch(choice)
         {
             case 1:
             insert();
             break;
-            
+
             case 2:
-            deletealternatenode();
+            deletealternatenodes();
             break;
-            
+
             case 3:
             display();
             break;
-            
+
             default:
             exit(0);
             break;
         }
     }
-
-    return 0;
 }
