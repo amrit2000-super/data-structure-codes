@@ -33,6 +33,7 @@ OLL *createTree()
         scanf("%d",&newnode->num);
         if((newnode->num)<(head->num))
         {
+            newnode->next=head;
             head=newnode;
         }
         else
